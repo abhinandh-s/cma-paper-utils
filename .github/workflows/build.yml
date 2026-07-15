@@ -2,7 +2,7 @@ name: Build Wasm
 
 on:
   push:
-    branches: [ main ] # Only run on main to avoid running on every tiny branch
+    branches: [ master ] # Only run on main to avoid running on every tiny branch
   workflow_dispatch:
 
 permissions:
