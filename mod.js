@@ -1,4 +1,4 @@
-import { add, Greeter } from "./lib/rs_lib.js";
+import { add, Greeter, paperIdToLevel } from "./lib/rs_lib.js";
 
 export * from "./lib/rs_lib.js";
 
