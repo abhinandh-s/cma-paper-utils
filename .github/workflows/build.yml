@@ -31,25 +31,26 @@ jobs:
         with:
           deno-version: lts
 
-      - name: Build Wasm
-        run: deno task wasmbuild new
+      # --- THE FIX IS HERE ---
+      - name: Scaffold Project
+        run: deno run -A jsr:@deno/wasmbuild@0.19.0 new
 
-      # --- DEBUGGING STEPS START HERE ---
-      - name: Install and Run Tree
+      - name: Build WebAssembly
+        run: deno task wasmbuild
+      # -----------------------
+
+      - name: Install and Run Tree (Debugging)
         run: |
           sudo apt-get update && sudo apt-get install -y tree
           echo "--- DIRECTORY STRUCTURE ---"
           tree -a -L 3
           echo "--- GIT STATUS ---"
           git status
-      # --- DEBUGGING STEPS END HERE ---
 
       - name: Commit generated files
         uses: stefanzweifel/git-auto-commit-action@v5
-        # Adding continue-on-error temporarily so the workflow doesn't fail 
-        # while we are just trying to read the tree output!
-        continue-on-error: true 
         with:
-          commit_message: "chore: compile rust to wasm [skip ci]"
+          commit_message: "chore: scaffold and compile rust to wasm [skip ci]"
           add_options: '-f'
-          file_pattern: 'lib/ mod.js .gitignore .rustfmt.toml Cargo.toml rs_lib/' 
+          # Explicitly target all scaffolded AND generated files
+          file_pattern: 'deno.json Cargo.toml .rustfmt.toml .gitignore rs_lib/ lib/ mod.js'
