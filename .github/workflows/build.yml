@@ -32,12 +32,24 @@ jobs:
           deno-version: lts
 
       - name: Build Wasm
-        run: deno task wasmbuild new
+        run: deno task wasmbuild
 
-      # This step automatically commits the generated files back to your repository
+      # --- DEBUGGING STEPS START HERE ---
+      - name: Install and Run Tree
+        run: |
+          sudo apt-get update && sudo apt-get install -y tree
+          echo "--- DIRECTORY STRUCTURE ---"
+          tree -a -L 3
+          echo "--- GIT STATUS ---"
+          git status
+      # --- DEBUGGING STEPS END HERE ---
+
       - name: Commit generated files
         uses: stefanzweifel/git-auto-commit-action@v5
+        # Adding continue-on-error temporarily so the workflow doesn't fail 
+        # while we are just trying to read the tree output!
+        continue-on-error: true 
         with:
           commit_message: "chore: compile rust to wasm [skip ci]"
-          add_options: '-f' # This forces git to add the files even if they are in .gitignore
-          file_pattern: 'lib/ mod.js .gitignore' # Removed the * to prevent shell expansion issues
+          add_options: '-f'
+          file_pattern: 'lib/ mod.js .gitignore' 
