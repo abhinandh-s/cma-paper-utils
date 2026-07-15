@@ -32,7 +32,7 @@ jobs:
           deno-version: lts
 
       - name: Build Wasm
-        run: deno task wasmbuild
+        run: deno task wasmbuild new
 
       # --- DEBUGGING STEPS START HERE ---
       - name: Install and Run Tree
