@@ -52,4 +52,4 @@ jobs:
         with:
           commit_message: "chore: compile rust to wasm [skip ci]"
           add_options: '-f'
-          file_pattern: 'lib/ mod.js .gitignore' 
+          file_pattern: 'lib/ mod.js .gitignore .rustfmt.toml Cargo.toml rs_lib/' 
