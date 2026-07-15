@@ -2,11 +2,11 @@ name: Build Wasm
 
 on:
   push:
-    branches: [ master ] # Only run on main to avoid running on every tiny branch
+    branches: [ master ]
   workflow_dispatch:
 
 permissions:
-  contents: write # CRITICAL: Changed from 'read' to 'write' so the bot can push the files
+  contents: write
   pages: write
   id-token: write
 
@@ -39,4 +39,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: compile rust to wasm [skip ci]"
-          file_pattern: 'lib/* mod.js'
+          add_options: '-f' # This forces git to add the files even if they are in .gitignore
+          file_pattern: 'lib/ mod.js .gitignore' # Removed the * to prevent shell expansion issues
